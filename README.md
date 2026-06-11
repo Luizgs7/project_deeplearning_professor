@@ -1,6 +1,6 @@
 # 🧠 Neural Prof — Assistente de Deep Learning
 
-Tutor interativo especializado em Deep Learning e IA, desenvolvido como aplicação de apoio pedagógico para a disciplina de Projetos de IA (especialização em IA Generativa). Conversa com o aluno via LLM, adapta as respostas ao nível de conhecimento e oferece recursos ativos de aprendizagem.
+Tutor interativo especializado em Deep Learning e IA, desenvolvido como aplicação de apoio pedagógico para a disciplina de Projetos de IA, do programa de especialização em IA Generativa, da Universidade Federal do Paraná, cursada em 2026. Conversa com o aluno via LLM, adapta as respostas ao nível de conhecimento e oferece recursos ativos de aprendizagem.
 
 ---
 
@@ -12,7 +12,6 @@ Tutor interativo especializado em Deep Learning e IA, desenvolvido como aplicaç
 | 🎓 **Nível adaptativo** | Iniciante, Intermediário e Avançado — ajustam o rigor técnico das respostas |
 | 💡 **Follow-up automático** | 2–3 perguntas relacionadas geradas após cada resposta, clicáveis como chips |
 | 📝 **Quiz adaptativo** | 3 questões com 5 alternativas baseadas nos temas da conversa, com gabarito e explicações |
-| 🕸️ **Rede neural animada** | SVG com animação CSS de pulso nos neurônios e fluxo nas conexões |
 | 🗂️ **Tópicos sugeridos** | Atalhos na sidebar para os principais temas do curso |
 
 ---
@@ -37,7 +36,7 @@ Tutor interativo especializado em Deep Learning e IA, desenvolvido como aplicaç
 
 ```bash
 # 1. Clone o repositório
-git clone <url-do-repositorio>
+git clone https://github.com/Luizgs7/project_deeplearning_professor.git
 cd project_deeplearning_professor
 
 # 2. Crie e ative um ambiente virtual
@@ -54,7 +53,7 @@ pip install -r requirements.txt
 Crie um arquivo `.env` na raiz do projeto:
 
 ```env
-NVIDIA_API_KEY=sua_chave_aqui
+NVIDIA_API_KEY=<sua_chave_aqui>
 ```
 
 > ⚠️ O arquivo `.env` já está no `.gitignore`. Nunca o versione.
@@ -84,7 +83,7 @@ Acesse em `http://localhost:8501`.
 
 - O histórico de conversa é mantido em `st.session_state` e enviado como contexto completo a cada turno.
 - O cliente `openai.OpenAI` é usado diretamente para o chat principal (streaming compatível com a NVIDIA API). Instâncias separadas de `chatlas.ChatOpenAI` tratam chamadas utilitárias (follow-up e quiz), isolando o histórico principal.
-- Cada sessão recebe um `session_id` único; perguntas e respostas são registradas em `chat_history.log` com rotação de 50 MB.
+- Cada sessão recebe um `session_id` único; perguntas e respostas são registradas em `chat_history.log` com rotação de 50 MB para evitar quebra inesperada da aplicação.
 
 ---
 
