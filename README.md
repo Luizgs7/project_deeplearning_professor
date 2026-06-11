@@ -1,4 +1,4 @@
-# 🧠 Neural Prof — Assistente de Deep Learning
+# [🧠 Neural Prof — Assistente de Deep Learning](http://144.22.237.241:8501/)
 
 Tutor interativo especializado em Deep Learning e IA, desenvolvido como aplicação de apoio pedagógico para a disciplina de Projetos de IA, do programa de especialização em IA Generativa, da Universidade Federal do Paraná, cursada em 2026. Conversa com o aluno via LLM, adapta as respostas ao nível de conhecimento e oferece recursos ativos de aprendizagem.
 
