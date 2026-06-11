@@ -1,27 +1,104 @@
-# Introdução
-- Objetivo da atividade: desenvolver uma aplicação de apoio pedagógico em Deep Learning para a disciplina de Projetos de IA da especialização em IA Generativa.
-- Visão geral da solução desenvolvida: uma interface Streamlit que conversa com um modelo de linguagem via API NVIDIA/OpenAI, mantendo histórico de sessão e registrando perguntas e respostas em log.
+# 🧠 Neural Prof — Assistente de Deep Learning
 
-# Infraestrutura
-- Configuração da máquina virtual: ambiente Linux com Python 3.13, dependências instaladas via `requirements.txt` e variáveis de ambiente carregadas por `python-dotenv`.
-- Sistema operacional utilizado: Linux.
-- Recursos computacionais disponíveis: CPU para execução do front-end Streamlit e conexão de rede para chamadas à API externa; o processamento do modelo é realizado pelo serviço de nuvem da Oracle Academy.
+Tutor interativo especializado em Deep Learning e IA, desenvolvido como aplicação de apoio pedagógico para a disciplina de Projetos de IA (especialização em IA Generativa). Conversa com o aluno via LLM, adapta as respostas ao nível de conhecimento e oferece recursos ativos de aprendizagem.
 
-# Modelo Escolhido
-- Nome do modelo: `openai/gpt-oss-120b` acessado via `ChatOpenAI` e NVIDIA API.
-- Justificativa da escolha: modelo grande e de alto desempenho adequado para respostas técnicas e explicações em Deep Learning, com integração via API já suportada pela biblioteca `chatlas`.
-- Principais características: arquitetura de larga escala, capacidade de gerar texto técnico estruturado e suporte a múltiplos tópicos avançados de IA e DL.
+---
 
-# Desenvolvimento
-- Arquitetura da aplicação: aplicação web Streamlit que mantém o histórico da conversa em `st.session_state`, constrói o prompt completo com `SYSTEM_PROMPT` e envia o contexto ao modelo para gerar a resposta.
-- Bibliotecas utilizadas: `streamlit`, `chatlas`, `openai`, `python-dotenv`.
-- Estratégia de gerenciamento de credenciais: uso de arquivo `.env` para armazenar a variável `NVIDIA_API_KEY`; esse arquivo não deve ser versionado e deve estar listado em `.gitignore`.
+## ✨ Funcionalidades
 
-# Implantação
-- Processo de publicação na Oracle Cloud: preparar VM Linux com Python, clonar o repositório, instalar dependências com `pip install -r requirements.txt`, configurar `.env` com a chave de API e rodar o app com `streamlit run src/app.py`.
-- Principais desafios encontrados: garantir que a chave de API não vaze no repositório, controlar o tamanho do arquivo de log e manter a sessão do usuário isolada por `session_id`.
+| Funcionalidade | Descrição |
+|---|---|
+| 💬 **Chat com streaming** | Respostas geradas progressivamente via Chat Completions API |
+| 🎓 **Nível adaptativo** | Iniciante, Intermediário e Avançado — ajustam o rigor técnico das respostas |
+| 💡 **Follow-up automático** | 2–3 perguntas relacionadas geradas após cada resposta, clicáveis como chips |
+| 📝 **Quiz adaptativo** | 3 questões com 5 alternativas baseadas nos temas da conversa, com gabarito e explicações |
+| 🕸️ **Rede neural animada** | SVG com animação CSS de pulso nos neurônios e fluxo nas conexões |
+| 🗂️ **Tópicos sugeridos** | Atalhos na sidebar para os principais temas do curso |
 
-# Discussão
-- Lições aprendidas: a importância de separar configurações sensíveis do código-fonte (`.env`), a utilidade do Streamlit para criar interfaces rápidas e a necessidade de monitorar o tamanho de logs em aplicativos que serão compartilhados.
-- Possíveis melhorias futuras: migrar o log para um formato estruturado como JSONL, adicionar gerenciamento de múltiplos usuários com login, implementar persistência de histórico em banco de dados e suportar controle de versão de prompts para auditoria.
+---
 
+## 🛠️ Stack
+
+- **[Streamlit](https://streamlit.io) `>=1.58`** — interface web e gerenciamento de estado
+- **[openai](https://github.com/openai/openai-python) `>=2.41`** — cliente para Chat Completions API com streaming
+- **[chatlas](https://github.com/posit-dev/chatlas) `>=0.18`** — chamadas utilitárias ao modelo (follow-up e quiz)
+- **[python-dotenv](https://github.com/theskumar/python-dotenv) `>=1.2`** — carregamento de variáveis de ambiente
+
+---
+
+## 🚀 Como rodar
+
+### Pré-requisitos
+
+- Python 3.11+
+- Chave de API NVIDIA — obtenha em [build.nvidia.com](https://build.nvidia.com)
+
+### Instalação
+
+```bash
+# 1. Clone o repositório
+git clone <url-do-repositorio>
+cd project_deeplearning_professor
+
+# 2. Crie e ative um ambiente virtual
+python -m venv .venv
+source .venv/bin/activate      # Linux/macOS
+# .venv\Scripts\activate       # Windows
+
+# 3. Instale as dependências
+pip install -r requirements.txt
+```
+
+### Configuração
+
+Crie um arquivo `.env` na raiz do projeto:
+
+```env
+NVIDIA_API_KEY=sua_chave_aqui
+```
+
+> ⚠️ O arquivo `.env` já está no `.gitignore`. Nunca o versione.
+
+### Execução
+
+```bash
+streamlit run src/app.py
+```
+
+Acesse em `http://localhost:8501`.
+
+---
+
+## ☁️ Implantação (Oracle Cloud)
+
+1. Provisione uma VM Linux com Python 3.11+
+2. Clone o repositório e instale as dependências com `pip install -r requirements.txt`
+3. Configure o arquivo `.env` com a `NVIDIA_API_KEY`
+4. Execute `streamlit run src/app.py`
+5. Abra a porta **8501** no security group da VM
+6. Acesse via `http://<ip-publico>:8501`
+
+---
+
+## 🏗️ Arquitetura
+
+- O histórico de conversa é mantido em `st.session_state` e enviado como contexto completo a cada turno.
+- O cliente `openai.OpenAI` é usado diretamente para o chat principal (streaming compatível com a NVIDIA API). Instâncias separadas de `chatlas.ChatOpenAI` tratam chamadas utilitárias (follow-up e quiz), isolando o histórico principal.
+- Cada sessão recebe um `session_id` único; perguntas e respostas são registradas em `chat_history.log` com rotação de 50 MB.
+
+---
+
+## 💭 Lições aprendidas
+
+- Separar credenciais do código (`dotenv` + `.gitignore`) é inegociável desde o início.
+- A nova **Responses API** da OpenAI (usada pelo chatlas em modo streaming) é incompatível com endpoints de terceiros; o cliente `openai` direto resolve.
+- Streamlit é produtivo para protótipos, mas exige atenção ao modelo de re-renderização para features como streaming e chips interativos.
+
+---
+
+## 🔭 Melhorias futuras
+
+- Log estruturado em JSONL para análise por sessão
+- Persistência do histórico em banco de dados
+- Autenticação e suporte a múltiplos usuários simultâneos
+- Exportação do histórico de conversa pelo aluno
