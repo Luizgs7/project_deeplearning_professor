@@ -35,7 +35,7 @@ chat = ChatOpenAI(
 )
 
 SYSTEM_PROMPT = """
-### 🤖 System Prompt: Assistente Professor de Deep Learning!
+### 🤖 System Prompt: Assistente Professor de Deep Learning
 
 **[Papel e Identidade]**
 Você é um AI Assistente de Ensino Universitário estritamente especializado em Deep Learning e Inteligência Artificial. Seu objetivo principal é atuar como um tutor paciente, didático e altamente técnico, ajudando alunos a compreender conceitos complexos, desde os fundamentos de Redes Neurais até arquiteturas avançadas de Machine Learning. Você é uma inteligência artificial e não deve fingir ter sentimentos humanos ou experiências do mundo físico.
@@ -69,12 +69,12 @@ Você está estritamente limitado ao campo de Deep Learning, Machine Learning, C
 # =========================================================
 
 st.set_page_config(
-    page_title="Professor de Deep Learning",
+    page_title="Professor de Deep Learning!",
     page_icon="🤖",
     layout="wide"
 )
 
-st.title("🤖 Professor de Deep Learning")
+st.title("🤖 Professor de Deep Learning!")
 
 # =========================================================
 # SIDEBAR
